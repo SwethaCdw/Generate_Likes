@@ -2,10 +2,18 @@ import { movieApiCall } from "./movie-service.js";
 import { generateRandomNumber, checkRangeUsingRandomNumber } from "./random-utils.js";
 
 const movieList =  await movieApiCall();
-// console.log(movieList);
 const randomNumber = generateRandomNumber();
 const range = checkRangeUsingRandomNumber(randomNumber);
 
+/**
+ * Function to cateogorize movies into ranges based on 3 conditions
+ * 1. Check metascore in given range
+ * 2. Check the release date
+ * 3. Check the rating
+ * @param movies - movie list from API
+ * @param range - the range returned based on the random number
+ * @returns categorizedMovies
+ */
 function categorizeMovies(movies, range) {
     const categorizedMovies = {
       '1-250': [],
@@ -14,6 +22,7 @@ function categorizeMovies(movies, range) {
       '751-1000': [],
     };
   
+    //Looping through the movie list
     movies.forEach((movie) => {
       const { Metascore, Released, Ratings } = movie;
     
@@ -68,6 +77,12 @@ function categorizeMovies(movies, range) {
     return categorizedMovies;
   }
 
+/**
+ * Function to check if a rating satisfies the given condition
+ * @param ratingList - Ratings array from the API
+ * @param maxRating - Rating required based on the condition
+ * @returns isRating
+ */
 const checkRating = (ratingList, maxRating) => {
     let isRating = false;
     ratingList.forEach( rating => {
@@ -82,6 +97,12 @@ const checkRating = (ratingList, maxRating) => {
     return isRating;
 }
 
+/**
+ * Function to check if a release day satisfies the given condition
+ * @param date - Release date from the API
+ * @param day - Day required based on the condition
+ * @returns isDay
+ */
 const checkReleaseDay = (date, day) => {
     console.log('swe release day',date, day, new Date(date).getDay());
     const isDay = new Date(date).getDay() == day;
@@ -89,5 +110,5 @@ const checkReleaseDay = (date, day) => {
     return isDay;
 }
 
-console.log("random Numher", randomNumber, range)
+//TODO: Print the list of categorized movies
 console.log(categorizeMovies(movieList,range));
