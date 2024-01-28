@@ -1,5 +1,5 @@
-import { getMoviesList, updateMoviesList } from "./movie-service.js";
-import { generateRandomNumber, getRange } from "./random-utils.js";
+import { getMoviesList, updateMoviesList } from "../services/movie-service.js";
+import { generateRandomNumber, getRange } from "../utils/random-utils.js";
 
 const movieList =  await getMoviesList();
 const categorizedMovies = {
@@ -19,6 +19,8 @@ button.onclick = startProcess;
 
 function startProcess() {
     const interval = setInterval(function() {
+        seconds++;
+        console.log('TIMER: ', seconds);
 
         //Generate Random Number
         const randomNumber = generateRandomNumber(randomNumberMaxLimit);
@@ -30,7 +32,6 @@ function startProcess() {
 
         //Categorize Movies
         const updatedMovies = categorizeMovies(movieList, rangeStart, rangeEnd);
-        seconds++;
         if (seconds >= timeLimit) {
 
             // Stop the interval after 60 seconds

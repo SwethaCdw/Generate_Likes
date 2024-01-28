@@ -1,5 +1,6 @@
+import { APP_CONSTANTS } from '../constants/constants.js';
 
-const apiUrl = 'https://mocki.io/v1/2cb7bcc2-6154-4659-92da-a40fa41cd9b3';
+const apiUrl = APP_CONSTANTS.API_URL;
 
 /**
  * Function to fetch the movie details from the mock API 
