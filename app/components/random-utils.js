@@ -1,21 +1,22 @@
 /**
  * To generate a random number between 1 to 1000
+ * @param maxLimit - Max limit for generating random number
  * @returns randomNumber
  */
-export const generateRandomNumber = () => {
-    let randomNumber = Math.floor(Math.random() * 1000) + 1;
+export const generateRandomNumber = (maxLimit) => {
+    let randomNumber = Math.floor(Math.random() * maxLimit) + 1;
     return randomNumber;
 }
 
 /**
- * To check under which range does the random number lie under
- * @returns range
+ * 
+ * @param {*} randomNumber random number
+ * @param {*} rangeSize 
+ * @returns start, end
  */
-export const checkRangeUsingRandomNumber = (randomNumber) => {
-    const range = randomNumber <= 250 ? 1 : 
-                  randomNumber <= 500 ? 2 :
-                  randomNumber <= 750 ? 3 :
-                  4;
-    
-    return range;
+export const getRange = (randomNumber, rangeSize) => {
+    const rangeIndex = Math.ceil(randomNumber / rangeSize);
+    const rangeStart = (rangeIndex - 1) * rangeSize + 1;
+    const rangeEnd = rangeIndex * rangeSize;
+    return {rangeStart, rangeEnd};
 }
