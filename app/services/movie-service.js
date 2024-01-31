@@ -1,6 +1,6 @@
-import { APP_CONSTANTS } from '../constants/constants.js';
+import { API_CONSTANTS } from '../constants/api-constants.js';
 
-const apiUrl = APP_CONSTANTS.API_URL;
+const apiUrl = API_CONSTANTS.API_URL;
 
 /**
  * Function to fetch the movie details from the mock API 
