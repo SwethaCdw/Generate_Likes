@@ -11,7 +11,7 @@ let categorizedMovies = {
   };
 let seconds = 0;
 const timeInterval = 1000;
-const timeLimit = 5;
+const timeLimit = 60;
 const randomNumberMaxLimit = 1000;
 const rangeSize = 250;
 const button = document.getElementById('start');
@@ -32,7 +32,7 @@ function startProcess() {
         console.log('Range Obtained : ', rangeStart, rangeEnd);
 
         //Categorize Movies
-        categorizeMovies(movieList, rangeStart, rangeEnd); //movie list anupanuma inga?
+        categorizeMovies(movieList, rangeStart, rangeEnd); 
         if (seconds >= timeLimit) {
 
             // Stop the interval after 60 seconds
@@ -72,7 +72,7 @@ function categorizeMovies(movies, rangeStart, rangeEnd) {
       if(Metascore >= rangeStart && Metascore <= rangeEnd){
         switch(rangeEnd){
             case 250 : 
-                isRating = checkRating(Ratings, 75); 
+                isRating = checkRating(Ratings, 75, true); 
                 isDay = checkReleaseDay(Released);
                 if(isRating && isDay.isEvenDay){    
                     movie.Metascore += 2; 
@@ -80,7 +80,7 @@ function categorizeMovies(movies, rangeStart, rangeEnd) {
                 break;
         
             case 500 :
-                isRating = checkRating(Ratings, 50);
+                isRating = checkRating(Ratings, 50, true);
                 isDay = checkReleaseDay(Released);
                 if(isRating && !isDay.isEvenDay){
                     movie.Metascore += 1;
@@ -88,7 +88,7 @@ function categorizeMovies(movies, rangeStart, rangeEnd) {
                 break;
 
             case 750 :
-                isRating = checkRating(Ratings, 50); 
+                isRating = checkRating(Ratings, 50, false); 
                 isDay = checkReleaseDay(Released, 2);
                 if(isRating && isDay.isReleaseDay){
                     movie.Metascore -= 1;
@@ -96,7 +96,7 @@ function categorizeMovies(movies, rangeStart, rangeEnd) {
                 break;
 
             case 1000:
-                isRating = checkRating(Ratings, 25);
+                isRating = checkRating(Ratings, 25, false);
                 isDay = checkReleaseDay(Released, 1);
                 if(isRating && isDay.isReleaseDay){
                     movie.Metascore -= 2;
@@ -117,17 +117,12 @@ function categorizeMovies(movies, rangeStart, rangeEnd) {
  * @param maxRating - Rating required based on the condition
  * @returns isRating
  */
-const checkRating = (ratingList, maxRating) => {
-    let isRating = false;
-    ratingList.forEach( rating => {
+const checkRating = (ratingList, maxRating, isAbove) => {
+    return ratingList.some(rating => {
         let fraction = rating.Value.split("/");
-        let ratingValue = parseFloat(fraction[0])/parseFloat(fraction[1]) * 100;
-        isRating = ratingValue >= maxRating ? true : false;
-        if(isRating){
-            return isRating;
-        } 
+        let ratingValue = parseFloat(fraction[0]) / parseFloat(fraction[1]) * 100;
+        return isAbove ? ratingValue > maxRating : ratingValue < maxRating;
     });
-    return isRating;
 }
 
 /**
@@ -136,7 +131,7 @@ const checkRating = (ratingList, maxRating) => {
  * @param day - Day required based on the condition
  * @returns isDay
  */
-const checkReleaseDay = (date, day) => { //kadasila paaru
+const checkReleaseDay = (date, day) => { 
     const getDay = new Date(date).getDay();
     const isReleaseDay = getDay == day;
     const isEvenDay = getDay % 2 === 0;
